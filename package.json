@@ -1,0 +1,35 @@
+{
+  "name": "gulp-sandbox",
+  "description": "My gulp template with Bootstrap 3 Sass.",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/konitter/gulp-sandbox.git"
+  },
+  "main": "gulpfile.js",
+  "scripts": {
+    "start": "gulp",
+    "postinstall": "bower install && gulp init",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "konitter",
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "~3.6.2",
+    "gulp-csso": "~0.2.8",
+    "gulp-util": "~2.2.14",
+    "gulp-concat": "~2.2.0",
+    "gulp-uglify": "~0.3.0",
+    "gulp-header": "~1.0.2",
+    "gulp-rename": "~1.2.0",
+    "gulp-htmlmin": "~0.1.2",
+    "gulp-connect": "~2.0.5",
+    "gulp-plumber": "~0.6.2",
+    "gulp-imagemin": "~0.5.0",
+    "gulp-ruby-sass": "~0.5.0",
+    "gulp-autoprefixer": "0.0.7",
+    "gulp-load-plugins": "~0.5.1",
+    "gulp-combine-media-queries": "0.0.1",
+    "coffee-script": "~1.7.1"
+  }
+}
