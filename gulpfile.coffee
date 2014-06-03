@@ -48,7 +48,9 @@ g.task 'html', ->
 g.task 'css', ->
   g.src path.css
   .pipe $.plumber()
-  .pipe $.rubySass style: 'expanded'
+  .pipe $.sass
+    style: 'expanded'
+    sourcemap: true
   .pipe $.concat 'all.css'
   .pipe $.autoprefixer 'last 2 version', 'ios >= 5', 'android >= 2.3'
   .pipe $.header banner, pkg: pkg
@@ -81,5 +83,3 @@ g.task 'watch', ['connect'], ->
   g.watch 'dist/**/*.*', (e) ->
     g.src e.path
     .pipe $.connect.reload()
-
-module.exports = g
