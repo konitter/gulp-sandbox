@@ -6,7 +6,7 @@
     "type": "git",
     "url": "git://github.com/konitter/gulp-sandbox.git"
   },
-  "main": "gulpfile.js",
+  "main": "gulpfile.coffee",
   "scripts": {
     "start": "gulp",
     "postinstall": "bower install && gulp init",
