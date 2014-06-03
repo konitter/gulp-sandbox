@@ -22,17 +22,14 @@ g.task 'init', ->
     'bower/bootstrap-accessibility-plugin/plugins/css/**'
   ]
   .pipe g.dest 'src/css'
-
   g.src 'bower/bootstrap-sass-official/vendor/assets/fonts/**'
   .pipe g.dest 'dist/css'
-
   g.src [
     'bower/bootstrap/dist/js/bootstrap.js'
     'bower/bootstrap-accessibility-plugin/plugins/js/bootstrap-accessibility.js'
   ]
   .pipe $.concat 'bootstrap.all.js'
   .pipe g.dest 'src/js'
-
   g.src 'bower/jquery/dist/jquery.min.js'
   .pipe g.dest 'dist/js'
 
@@ -44,6 +41,7 @@ g.task 'connect', ->
 
 g.task 'html', ->
   g.src path.html
+  .pipe $.changed 'dist'
   .pipe $.htmlmin collapseWhitespace: true, removeComments: true
   .pipe g.dest 'dist'
 
@@ -79,10 +77,7 @@ g.task 'watch', ['connect'], ->
   g.watch path.css, ['css']
   g.watch path.js,  ['js']
   g.watch path.img, ['img']
-  g.watch path.html, (e) ->
-    g.src e.path
-    .pipe $.htmlmin collapseWhitespace: true, removeComments: true
-    .pipe g.dest 'dist'
+  g.watch path.html,['html']
   g.watch 'dist/**/*.*', (e) ->
     g.src e.path
     .pipe $.connect.reload()
