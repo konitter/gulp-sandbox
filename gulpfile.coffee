@@ -6,7 +6,6 @@ pkg = require './package.json'
 
 path =
   html: 'src/**/*.html'
-  # css: ['src/css/**/*.{scss,css}', '!src/css/bootstrap/bootstrap.scss']
   css: 'src/css/**/*.{scss,css}'
   js: 'src/js/*.js'
   img: 'src/**/img/*.{jpg,png,gif}'
