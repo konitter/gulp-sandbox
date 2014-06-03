@@ -13,7 +13,7 @@ path =
 
 banner = '/*!\n' +
   ' * <%= pkg.name %> v<%= pkg.version %>\n' +
-  ' * Copyright ' + $.util.date('yyyy') + ' <%= pkg.author %>\n' +
+  ' * Copyright ' + new Date().getFullYear() + ' <%= pkg.author %>\n' +
   ' * Licensed under <%= pkg.license %> License\n' +
   ' */\n'
 
