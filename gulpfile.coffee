@@ -1,10 +1,13 @@
 g = require 'gulp'
 $ = require('gulp-load-plugins')()
+bs = require 'browser-sync'
+sq = require 'streamqueue'
 pkg = require './package.json'
 
 path =
   html: 'src/**/*.html'
-  css: ['src/css/**/*.{scss,css}', '!src/css/bootstrap/bootstrap.scss']
+  # css: ['src/css/**/*.{scss,css}', '!src/css/bootstrap/bootstrap.scss']
+  css: 'src/css/**/*.{scss,css}'
   js: 'src/js/*.js'
   img: 'src/**/img/*.{jpg,png,gif}'
 
@@ -13,8 +16,6 @@ banner = '/*!\n' +
   ' * Copyright ' + $.util.date('yyyy') + ' <%= pkg.author %>\n' +
   ' * Licensed under <%= pkg.license %> License\n' +
   ' */\n'
-
-g.task 'default', ['html', 'css', 'js', 'watch']
 
 g.task 'init', ->
   g.src [
@@ -33,24 +34,24 @@ g.task 'init', ->
   g.src 'bower/jquery/dist/jquery.min.js'
   .pipe g.dest 'dist/js'
 
-g.task 'connect', ->
-  $.connect.server
-    root: 'dist'
-    port: 1337
-    livereload: true
+g.task 'bs', ->
+  bs.init null,
+    server:
+      baseDir: 'dist'
 
 g.task 'html', ->
   g.src path.html
   .pipe $.changed 'dist'
   .pipe $.htmlmin collapseWhitespace: true, removeComments: true
   .pipe g.dest 'dist'
+  .pipe bs.reload stream: true
 
 g.task 'css', ->
-  g.src path.css
-  .pipe $.plumber()
-  .pipe $.sass
-    style: 'expanded'
-    sourcemap: true
+  sq objectMode: true,
+    g.src 'src/css/bootstrap.scss'
+    .pipe $.plumber()
+    .pipe $.sass style: 'expanded'
+    g.src 'src/css/*.css'
   .pipe $.concat 'all.css'
   .pipe $.autoprefixer 'last 2 version', 'ios >= 5', 'android >= 2.3'
   .pipe $.header banner, pkg: pkg
@@ -59,6 +60,7 @@ g.task 'css', ->
   .pipe $.combineMediaQueries()
   .pipe $.csso()
   .pipe g.dest 'dist/css'
+  .pipe bs.reload stream: true
 
 g.task 'js', ->
   g.src path.js
@@ -69,17 +71,17 @@ g.task 'js', ->
   .pipe $.uglify()
   .pipe $.header banner, pkg: pkg
   .pipe g.dest 'dist/js'
+  .pipe bs.reload stream: true, once: true
 
 g.task 'img', ->
   g.src path.img
+  .pipe $.changed 'dist'
   .pipe $.imagemin()
   .pipe g.dest 'dist'
+  .pipe bs.reload stream: true, once: true
 
-g.task 'watch', ['connect'], ->
-  g.watch path.css, ['css']
-  g.watch path.js,  ['js']
-  g.watch path.img, ['img']
-  g.watch path.html,['html']
-  g.watch 'dist/**/*.*', (e) ->
-    g.src e.path
-    .pipe $.connect.reload()
+g.task 'default', ['bs', 'html', 'css', 'js'], ->
+  g.watch path.css,  ['css']
+  g.watch path.js,   ['js']
+  g.watch path.img,  ['img']
+  g.watch path.html, ['html']
