@@ -25,7 +25,7 @@ g.task 'init', ->
   g.src 'bower/bootstrap-sass-official/vendor/assets/fonts/**'
   .pipe g.dest 'dist/css'
   g.src [
-    'bower/bootstrap/dist/js/bootstrap.js'
+    'bower/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/*.js'
     'bower/bootstrap-accessibility-plugin/plugins/js/bootstrap-accessibility.js'
   ]
   .pipe $.concat 'bootstrap.all.js'

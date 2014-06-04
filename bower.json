@@ -14,7 +14,6 @@
   "dependencies": {
     "jquery": "~2.1.1",
     "bootstrap-sass-official": "~3.1.1+2",
-    "bootstrap-accessibility-plugin": "git://github.com/paypal/bootstrap-accessibility-plugin.git#~1.0.2",
-    "bootstrap": "~3.1.1"
+    "bootstrap-accessibility-plugin": "git://github.com/paypal/bootstrap-accessibility-plugin.git#~1.0.2"
   }
 }
