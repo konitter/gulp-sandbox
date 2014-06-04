@@ -48,10 +48,10 @@ g.task 'css', ->
     .pipe $.sass style: 'expanded'
     g.src 'src/css/*.css'
   .pipe $.concat 'all.css'
-  .pipe $.autoprefixer 'last 2 version', 'ios >= 5', 'android >= 2.3'
   .pipe g.dest 'dist/css'
   .pipe $.rename suffix: '.min'
   .pipe $.combineMediaQueries()
+  .pipe $.autoprefixer 'last 2 version', 'ios >= 5', 'android >= 2.3'
   .pipe $.csso()
   .pipe $.header fs.readFileSync path.license
   .pipe g.dest 'dist/css'
