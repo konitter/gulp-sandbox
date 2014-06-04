@@ -1,5 +1,6 @@
 g = require 'gulp'
 $ = require('gulp-load-plugins')()
+fs = require 'fs'
 bs = require 'browser-sync'
 sq = require 'streamqueue'
 pkg = require './package.json'
@@ -9,12 +10,7 @@ path =
   css: 'src/css/**/*.{scss,css}'
   js: 'src/js/*.js'
   img: 'src/**/img/*.{jpg,png,gif}'
-
-banner = '/*!\n' +
-  ' * <%= pkg.name %> v<%= pkg.version %>\n' +
-  ' * Copyright ' + new Date().getFullYear() + ' <%= pkg.author %>\n' +
-  ' * Licensed under <%= pkg.license %> License\n' +
-  ' */\n'
+  license: 'src/license/license.txt'
 
 g.task 'init', ->
   g.src [
@@ -53,22 +49,21 @@ g.task 'css', ->
     g.src 'src/css/*.css'
   .pipe $.concat 'all.css'
   .pipe $.autoprefixer 'last 2 version', 'ios >= 5', 'android >= 2.3'
-  .pipe $.header banner, pkg: pkg
   .pipe g.dest 'dist/css'
   .pipe $.rename suffix: '.min'
   .pipe $.combineMediaQueries()
   .pipe $.csso()
+  .pipe $.header fs.readFileSync path.license
   .pipe g.dest 'dist/css'
   .pipe bs.reload stream: true
 
 g.task 'js', ->
   g.src path.js
   .pipe $.concat 'all.js'
-  .pipe $.header banner, pkg: pkg
   .pipe g.dest 'dist/js'
   .pipe $.rename suffix: '.min'
   .pipe $.uglify()
-  .pipe $.header banner, pkg: pkg
+  .pipe $.header fs.readFileSync path.license
   .pipe g.dest 'dist/js'
   .pipe bs.reload stream: true, once: true
 
